@@ -7,7 +7,9 @@ import dmitry.garyanov.warehouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,4 +30,11 @@ public class UserService  implements IService {
         userRepository.saveAll(users);
     }
 
+    public User get(long id) {
+        try {
+            return userRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return new User();
+        }
+    }
 }

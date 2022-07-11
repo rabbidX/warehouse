@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +58,12 @@ public class InitiateUtils  implements CommandLineRunner {
 
     private List<User> createUsers(List<Role> roles) {
         List<User> result = new ArrayList<>();
-
+        String[] userNames = {"Ivanov", "Petrov", "Smirnov"};
+        for (int i = 0; i < userNames.length && i < roles.size(); i++) {
+            User user = userService.get(i + 1).setName(userNames[i]);
+            user.setRoles(new ArrayList<>(Arrays.asList(roles.get(i))));
+            result.add(user);
+        }
         return result;
     }
 

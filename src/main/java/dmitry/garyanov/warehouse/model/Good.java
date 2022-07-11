@@ -1,9 +1,11 @@
 package dmitry.garyanov.warehouse.model;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+@Accessors(chain = true)
 @Entity
 @Data
 public class Good implements IEntity{

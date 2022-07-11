@@ -33,7 +33,7 @@ public class RoleService  implements IService {
         try {
         return  roleRepository.findById(id).get();
         } catch(NoSuchElementException e) {
-            Role newRole = new Role().setId(id);
+            Role newRole = new Role();
             return newRole;
         }
     }

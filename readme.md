@@ -13,3 +13,5 @@ getAllGoodsByID
 Contractor API
 create
 getAll
+
+spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true

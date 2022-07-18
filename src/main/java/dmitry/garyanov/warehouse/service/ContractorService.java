@@ -2,11 +2,13 @@ package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.Contractor;
+import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.ContractorRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -25,5 +27,14 @@ public class ContractorService implements IService {
 
     public void saveAll(List<Contractor> contractors) {
         contractorRepository.saveAll(contractors);
+    }
+
+    public Contractor get(long id) {
+        try {
+            return  contractorRepository.findById(id).get();
+        } catch(NoSuchElementException e) {
+            Contractor newContractor = new Contractor();
+            return newContractor;
+        }
     }
 }

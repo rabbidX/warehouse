@@ -1,16 +1,16 @@
 package dmitry.garyanov.warehouse.model;
 
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Accessors(chain = true)
 @Entity
 @Data
+@ToString(exclude = "shipments")
 public class Contractor implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +18,6 @@ public class Contractor implements IEntity{
 
     private String name;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "contractor")
+    private List<Shipment> shipments;
 }

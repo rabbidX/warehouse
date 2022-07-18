@@ -29,7 +29,7 @@ public class RoleService  implements IService {
         roleRepository.saveAll(roles);
     }
 
-    public Role getById(long id) {
+    public Role get(long id) {
         try {
         return  roleRepository.findById(id).get();
         } catch(NoSuchElementException e) {

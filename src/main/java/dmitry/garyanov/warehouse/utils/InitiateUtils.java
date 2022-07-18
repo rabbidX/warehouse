@@ -41,6 +41,8 @@ public class InitiateUtils  implements CommandLineRunner {
         shipmentService.saveAll(shipments);
         printTable("Shipments", shipmentService);
 
+        printTable("Contractor", contractorService);
+
         List<Good> goods = createGoods(shipments);
         goodService.saveAll(goods);
         printTable("Goods", goodService);
@@ -49,9 +51,9 @@ public class InitiateUtils  implements CommandLineRunner {
     private List<Role> createRoles(){
         return new ArrayList<Role>(
                 Arrays.asList(
-                        roleService.getById(4).setName("admin"),
-                        roleService.getById(5).setName("operator"),
-                        roleService.getById(6).setName("carrier")
+                        roleService.get(4).setName("admin"),
+                        roleService.get(5).setName("operator"),
+                        roleService.get(6).setName("carrier")
                 )
         );
     }
@@ -68,11 +70,26 @@ public class InitiateUtils  implements CommandLineRunner {
     }
 
     private List<Contractor> createContractors() {
-        return new ArrayList<>();
+        return new ArrayList<Contractor>(
+                Arrays.asList(
+                        contractorService.get(1).setName("Hoofs&Horns Inc."),
+                        contractorService.get(2).setName("Horns&Hoofs Inc."),
+                        contractorService.get(3).setName("No horns only hoofs Inc.")
+                )
+        );
     }
 
     private List<Shipment> createShipments(List<Contractor> contractors) {
-        return new ArrayList<>();
+        List<Shipment> result = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Contractor contractor = contractors.get(i);
+            for (int j = 0; j < 2; j++) {
+                String name = "Shipment №" + (i +1);
+                result.add(shipmentService.get(i*2 + j).setName(name).setContractor(contractor));
+            }
+        }
+
+        return result;
     }
 
     private List<Good> createGoods(List<Shipment> shipments) {

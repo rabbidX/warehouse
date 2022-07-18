@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +27,14 @@ public class ShipmentService  implements IService {
 
     public void saveAll(List shipments) {
         shipmentRepository.saveAll(shipments);
+    }
+
+    public Shipment get(long id) {
+        try {
+            return  shipmentRepository.findById(id).get();
+        } catch(NoSuchElementException e) {
+            Shipment newShipment = new Shipment();
+            return newShipment;
+        }
     }
 }

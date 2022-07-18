@@ -13,7 +13,7 @@ public class Shipment implements IEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "contractorID", referencedColumnName = "id")
     private Contractor contractor;
 

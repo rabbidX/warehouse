@@ -37,4 +37,8 @@ public class UserService  implements IService {
             return new User();
         }
     }
+
+    public User getByID(long id) {
+        return userRepository.findById(id).get();
+    }
 }

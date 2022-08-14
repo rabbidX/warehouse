@@ -51,9 +51,9 @@ public class InitiateUtils  implements CommandLineRunner {
     private List<Role> createRoles(){
         return new ArrayList<Role>(
                 Arrays.asList(
-                        roleService.get(4).setName("admin"),
-                        roleService.get(5).setName("operator"),
-                        roleService.get(6).setName("carrier")
+                        roleService.get(4L).setName("admin"),
+                        roleService.get(5L).setName("operator"),
+                        roleService.get(6L).setName("carrier")
                 )
         );
     }
@@ -72,9 +72,9 @@ public class InitiateUtils  implements CommandLineRunner {
     private List<Contractor> createContractors() {
         return new ArrayList<Contractor>(
                 Arrays.asList(
-                        contractorService.get(1).setName("Hoofs&Horns Inc."),
-                        contractorService.get(2).setName("Horns&Hoofs Inc."),
-                        contractorService.get(3).setName("No horns only hoofs Inc.")
+                        contractorService.get(1L).setName("Hoofs&Horns Inc."),
+                        contractorService.get(2L).setName("Horns&Hoofs Inc."),
+                        contractorService.get(3L).setName("No horns only hoofs Inc.")
                 )
         );
     }

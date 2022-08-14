@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "users")
 @ToString(exclude = "roles")
-public class User implements IEntity{
+public class User implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

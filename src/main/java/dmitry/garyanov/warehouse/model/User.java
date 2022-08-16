@@ -24,4 +24,5 @@ public class User implements IEntity {
     private List<Role> roles;
 
     private String name;
+    private String password;
 }

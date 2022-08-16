@@ -64,6 +64,7 @@ public class InitiateUtils  implements CommandLineRunner {
         for (int i = 0; i < userNames.length && i < roles.size(); i++) {
             User user = userService.get(i + 1).setName(userNames[i]);
             user.setRoles(new ArrayList<>(Arrays.asList(roles.get(i))));
+            user.setPassword("pass"+i);
             result.add(user);
         }
         return result;

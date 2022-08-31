@@ -1,13 +1,11 @@
 package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
-import dmitry.garyanov.warehouse.model.Shipment;
 import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,7 +36,7 @@ public class UserService  implements IService {
         }
     }
 
-    public User getByID(long id) {
+    public User getById(long id) {
         return userRepository.findById(id).get();
     }
 }

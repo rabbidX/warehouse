@@ -37,4 +37,16 @@ public class ContractorService implements IService {
             return newContractor;
         }
     }
+
+    public Contractor getById(long id) {
+        return  contractorRepository.findById(id).get();
+    }
+
+    public void update(Contractor contractor) {
+        contractorRepository.save(contractor);
+    }
+
+    public void delete(Long id) {
+        contractorRepository.deleteById(id);
+    }
 }

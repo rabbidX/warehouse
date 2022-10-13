@@ -1,7 +1,7 @@
-package dmitry.garyanov.warehouse.controller;
+package dmitry.garyanov.warehouse.controller.rest;
 
-import dmitry.garyanov.warehouse.model.Contractor;
-import dmitry.garyanov.warehouse.service.ContractorService;
+import dmitry.garyanov.warehouse.model.Shipment;
+import dmitry.garyanov.warehouse.service.ShipmentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -15,72 +15,72 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/contractors/")
+@RequestMapping("/api/shipments/")
 @AllArgsConstructor
-public class ContractorController {
+public class ShipmentController {
 
-    private ContractorService contractorService;
+    private ShipmentService shipmentService;
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Contractor> getContractor(@PathVariable("id") Long contractorId) {
-        if (contractorId == null) {
+    public ResponseEntity<Shipment> getShipment(@PathVariable("id") Long shipmentId) {
+        if (shipmentId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Contractor contractor = this.contractorService.getById(contractorId);
+        Shipment shipment = this.shipmentService.getById(shipmentId);
 
-        if (contractor == null) {
+        if (shipment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(contractor, HttpStatus.OK);
+        return new ResponseEntity<>(shipment, HttpStatus.OK);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Contractor> saveContractor(@RequestBody @Validated Contractor contractor) {
+    public ResponseEntity<Shipment> saveShipment(@RequestBody @Validated Shipment shipment) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (contractor == null) {
+        if (shipment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        contractorService.save(contractor);
-        return new ResponseEntity<>(contractor, headers, HttpStatus.CREATED);
+        shipmentService.save(shipment);
+        return new ResponseEntity<>(shipment, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Contractor> updateContractor(@RequestBody @Validated  Contractor contractor) {
+    public ResponseEntity<Shipment> updateShipment(@RequestBody @Validated  Shipment shipment) {
         HttpHeaders headers = new HttpHeaders();
 
-        if (contractor == null) {
+        if (shipment == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        contractorService.save(contractor);
-        return new ResponseEntity<>(contractor, headers, HttpStatus.OK);
+        shipmentService.save(shipment);
+        return new ResponseEntity<>(shipment, headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Contractor>  delete(@PathVariable("id")Long contractorId) {
-        if (contractorId == null) {
+    public ResponseEntity<Shipment>  delete(@PathVariable("id")Long shipmentId) {
+        if (shipmentId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Contractor contractor = contractorService.getById(contractorId);
-        if (contractor == null) {
+        Shipment shipment = shipmentService.getById(shipmentId);
+        if (shipment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        contractorService.delete(contractorId);
+        shipmentService.delete(shipmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Contractor>> getAlContractors() {
-        List<Contractor> contractors = contractorService.getAll();
-        if (contractors.isEmpty()) {
+    public ResponseEntity<List<Shipment>> getAlShipments() {
+        List<Shipment> shipments = shipmentService.getAll();
+        if (shipments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(contractors, HttpStatus.OK);
+        return new ResponseEntity<>(shipments, HttpStatus.OK);
 
     }
 }

@@ -1,25 +1,22 @@
 package dmitry.garyanov.warehouse.model;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Accessors;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Accessors(chain = true)
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Good implements IEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "ownerID", referencedColumnName = "id")
-    private Contractor owner;
-
-    @ManyToOne
-    @JoinColumn(name = "shipmentID", referencedColumnName = "id")
-    private Shipment shipment;
 
     private String name;
     private String barcode;
@@ -27,4 +24,21 @@ public class Good implements IEntity{
     private Double weight;
     private Double volume;
 
+    @Override
+    public Long getId() {
+         return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Good good = (Good) o;
+        return id != null && Objects.equals(id, good.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode() + id.intValue();
+    }
 }

@@ -1,9 +1,11 @@
 package dmitry.garyanov.warehouse.conf;
 
+import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +35,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/*").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/*").hasAnyRole("admin", "operator", "carrier")
+                .antMatchers(HttpMethod.POST, "/api/*").hasAnyRole("admin", "operator")
+                .antMatchers(HttpMethod.PUT, "/api/*").hasAnyRole("admin", "operator")
+                .antMatchers(HttpMethod.DELETE, "/api/*").hasRole("admin")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -47,10 +55,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         UserDetails[] userDetails = new UserDetails[users.size()];
         for (int i = 0; i < arraySize; i++) {
             dmitry.garyanov.warehouse.model.User user = users.get(i);
+            String[] roles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
             userDetails[i] = User.builder()
                     .username(user.getName())
                     .password(passwordEncoder().encode(user.getPassword()))
-                    .roles("ADMIN")
+                    .roles(roles)
                     .build();
         }
         return new InMemoryUserDetailsManager(userDetails);

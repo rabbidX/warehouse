@@ -32,3 +32,6 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+task hello  {
+	println 'This is WAREHOUSE!!!'
+}

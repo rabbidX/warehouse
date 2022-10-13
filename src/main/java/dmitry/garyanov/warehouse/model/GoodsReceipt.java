@@ -4,7 +4,11 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Date;
 import java.util.Objects;
 
 @Accessors(chain = true)
@@ -13,34 +17,28 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Shipment implements IEntity {
+public class GoodsReceipt implements IEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
+    private Date date;
     @Override
     public Long getId() {
         return this.id;
     }
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "contractorId", referencedColumnName = "id")
-    @ToString.Exclude
-    private Contractor contractor;
-
-    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Shipment shipment = (Shipment) o;
-        return id != null && Objects.equals(id, shipment.id);
+        GoodsReceipt that = (GoodsReceipt) o;
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
         return getClass().hashCode() + id.intValue();
     }
-
 }

@@ -1,4 +1,4 @@
-package dmitry.garyanov.warehouse.controller;
+package dmitry.garyanov.warehouse.controller.rest;
 
 import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.service.UserService;
@@ -10,17 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/users/")
+@RequestMapping("/api/users/")
 @AllArgsConstructor
 public class UserController {
    @Autowired
     private UserService userService;
 
     @GetMapping
-    public List<User> getAll() {
-        return userService.getAll();
+    public List<String> getAll() {
+        return userService.getAll().stream().map(x -> x.toString()).collect(Collectors.toList());
     }
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {

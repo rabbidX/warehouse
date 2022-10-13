@@ -1,7 +1,6 @@
 package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
-import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.model.Shipment;
 import dmitry.garyanov.warehouse.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +35,16 @@ public class ShipmentService  implements IService {
             Shipment newShipment = new Shipment();
             return newShipment;
         }
+    }
+    public Shipment getById(long id) {
+        return shipmentRepository.findById(id).get();
+    }
+
+    public void update(Shipment shipment) {
+        shipmentRepository.save(shipment);
+    }
+
+    public void delete(Long id) {
+        shipmentRepository.deleteById(id);
     }
 }

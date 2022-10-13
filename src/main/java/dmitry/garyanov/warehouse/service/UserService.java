@@ -4,8 +4,11 @@ import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -21,7 +24,7 @@ public class UserService  implements IService {
 
     @Override
     public List<User> getAll() {
-        return userRepository.findAll();
+        return userRepository.findAll(Sort.by("id"));
     }
 
     public void saveAll(List users) {

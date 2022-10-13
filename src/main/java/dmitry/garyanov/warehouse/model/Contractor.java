@@ -20,4 +20,9 @@ public class Contractor implements IEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "contractor")
     private List<Shipment> shipments;
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
 }

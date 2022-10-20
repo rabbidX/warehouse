@@ -3,10 +3,14 @@ package dmitry.garyanov.warehouse.conf;
 import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -27,6 +31,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     private UserService userService;
+    private final UserDetailsService userDetailsService;
+
+    @Autowired
+    public ApplicationSecurity(@Qualifier("UserDetailsServiceImplementation") UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        super.configure(auth);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,24 +64,24 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsServiceBean() {
-
-        List<dmitry.garyanov.warehouse.model.User> users = userService.getAll();
-        int arraySize = users.size();
-        UserDetails[] userDetails = new UserDetails[users.size()];
-        for (int i = 0; i < arraySize; i++) {
-            dmitry.garyanov.warehouse.model.User user = users.get(i);
-            String[] roles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
-            userDetails[i] = User.builder()
-                    .username(user.getName())
-                    .password(passwordEncoder().encode(user.getPassword()))
-                    .roles(roles)
-                    .build();
-        }
-        return new InMemoryUserDetailsManager(userDetails);
-    }
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsServiceBean() {
+//
+//        List<dmitry.garyanov.warehouse.model.User> users = userService.getAll();
+//        int arraySize = users.size();
+//        UserDetails[] userDetails = new UserDetails[users.size()];
+//        for (int i = 0; i < arraySize; i++) {
+//            dmitry.garyanov.warehouse.model.User user = users.get(i);
+//            String[] roles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
+//            userDetails[i] = User.builder()
+//                    .username(user.getName())
+//                    .password(passwordEncoder().encode(user.getPassword()))
+//                    .roles(roles)
+//                    .build();
+//        }
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
 
     @Bean
     protected PasswordEncoder passwordEncoder(){

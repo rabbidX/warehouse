@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Accessors(chain = true)
 @Entity
@@ -42,4 +43,5 @@ public class Role implements IEntity{
     public int hashCode() {
         return getClass().hashCode() + this.getId().intValue();
     }
+
 }

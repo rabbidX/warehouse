@@ -43,7 +43,7 @@ public class InitiateUtils  implements CommandLineRunner {
         printTable("Shipments", shipmentService);
 
         List<DocumentRow> documentRows = createGoodReceiptsRows(goodsReceipts);
-        List<DocumentRow> shipmentRows = createShipmentRows(shipments, documentRows.size());
+        List<DocumentRow> shipmentRows = createShipmentRows(shipments, documentRows.size() + 1);
         documentRows.addAll(shipmentRows);
 
         documentRowService.saveAll(documentRows);

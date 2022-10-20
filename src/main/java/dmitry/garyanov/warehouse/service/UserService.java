@@ -5,6 +5,7 @@ import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,5 +42,10 @@ public class UserService  implements IService {
 
     public User getById(long id) {
         return userRepository.findById(id).get();
+    }
+
+    public User getByName(String name) {
+        return userRepository.getByName(name).orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
+
     }
 }

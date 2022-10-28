@@ -45,7 +45,13 @@ public class UserService  implements IService {
     }
 
     public User getByName(String name) {
-        return userRepository.getByName(name).orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
-
+        List<User> userList = userRepository.findByName(name);
+        if (userList.size() == 1) {
+            return userList.get(0);
+        }
+        if (userList.size() == 0) {
+            throw new UsernameNotFoundException("User doesn't exist");
+        }
+        throw new UsernameNotFoundException("Founded more than one user named " + name);
     }
 }

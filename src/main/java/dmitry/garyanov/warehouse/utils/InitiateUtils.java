@@ -43,7 +43,7 @@ public class InitiateUtils  implements CommandLineRunner {
         printTable("Shipments", shipmentService);
 
         List<DocumentRow> documentRows = createGoodReceiptsRows(goodsReceipts);
-        List<DocumentRow> shipmentRows = createShipmentRows(shipments, documentRows.size() + 1);
+        List<DocumentRow> shipmentRows = createShipmentRows(shipments, documentRows.size());
         documentRows.addAll(shipmentRows);
 
         documentRowService.saveAll(documentRows);
@@ -115,18 +115,20 @@ public class InitiateUtils  implements CommandLineRunner {
 
     private List<DocumentRow> createGoodReceiptsRows(List<GoodsReceipt> goodsReceipts) throws Exception {
         List<DocumentRow> result = new ArrayList<>();
-        int i = 0;
+        int i = 1;
         for (GoodsReceipt goodsReceipt: goodsReceipts) {
             result.add(documentRowService.get(i).setGoodsReceipt(goodsReceipt));
+            i++;
         }
         return result;
     }
 
     private List<DocumentRow> createShipmentRows(List<Shipment> shipments, int shift) throws Exception {
         List<DocumentRow> result = new ArrayList<>();
-        int i = 0;
+        int i = 1;
         for (Shipment shipment: shipments) {
             result.add(documentRowService.get(i + shift).setShipment(shipment));
+            i++;
         }
         return result;
     }

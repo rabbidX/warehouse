@@ -1,5 +1,6 @@
 package dmitry.garyanov.warehouse.security;
 
+import dmitry.garyanov.warehouse.conf.ApplicationSecurity;
 import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.getByName(username);
 
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(user.getName()
+                , ApplicationSecurity.passwordEncoder().encode(user.getPassword())
+                ,user.getAuthorities());
     }
 }

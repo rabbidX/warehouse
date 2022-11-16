@@ -1,7 +1,6 @@
 package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
-import dmitry.garyanov.warehouse.model.GoodsReceipt;
 import dmitry.garyanov.warehouse.model.Remaining;
 import dmitry.garyanov.warehouse.repository.RemainingRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +16,9 @@ public class RemainingService implements IService {
     @NotNull
     private RemainingRepository remainingRepository;
 
-    public void save (Remaining goodsReceipt) {
-        remainingRepository.save(goodsReceipt);
-    }
-
     @Override
     public List<Remaining> getAll() {
         return remainingRepository.findAll(Sort.by("id"));
-    }
-
-    public void saveAll(List remainings) {
-        remainingRepository.saveAll(remainings);
     }
 
     public Remaining get(long id) {

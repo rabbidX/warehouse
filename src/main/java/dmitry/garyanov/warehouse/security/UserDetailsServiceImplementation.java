@@ -25,7 +25,7 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
         User user = userService.getByName(username);
 
         return new org.springframework.security.core.userdetails.User(user.getName()
-                , ApplicationSecurity.passwordEncoder().encode(user.getPassword())
+                , user.getPassword()
                 ,user.getAuthorities());
     }
 }

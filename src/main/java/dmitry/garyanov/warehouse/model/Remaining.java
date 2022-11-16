@@ -1,5 +1,6 @@
 package dmitry.garyanov.warehouse.model;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,7 +26,10 @@ public class Remaining {
     private Good good;
 
     private Date receiptDate;
-    int Quantity;
-    int Worth;
+    private Date date;
+    private int quantity;
+    private int worth;
+    @ManyToOne
+    private DocumentRow registrar;
 
 }

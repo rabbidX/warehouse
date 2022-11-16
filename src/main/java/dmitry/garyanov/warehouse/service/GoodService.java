@@ -3,11 +3,13 @@ package dmitry.garyanov.warehouse.service;
 import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.Good;
 import dmitry.garyanov.warehouse.model.Role;
+import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.GoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +27,13 @@ public class GoodService  implements IService {
 
     public void saveAll(List goods) {
         goodRepository.saveAll(goods);
+    }
+
+    public Good get(long id) {
+        try {
+            return goodRepository.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return new Good();
+        }
     }
 }

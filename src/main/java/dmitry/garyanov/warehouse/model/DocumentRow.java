@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +26,7 @@ public class DocumentRow  implements IEntity{
     @ManyToOne
     @JoinColumn(name = "goodsReceiptId")
     GoodsReceipt goodsReceipt;
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "goodId")
@@ -42,6 +44,7 @@ public class DocumentRow  implements IEntity{
             throw new Exception("document row " + id + " setShipment exception. Good receipt must be null");
         }
         this.shipment = shipment;
+        this.date = shipment.getDate();
         return this;
     }
 
@@ -50,6 +53,7 @@ public class DocumentRow  implements IEntity{
             throw new Exception("document row " + id + " setGoodsReceipt exception. Shipment must be null");
         }
         this.goodsReceipt = goodsReceipt;
+        this.date = goodsReceipt.getDate();
         return this;
     }
 

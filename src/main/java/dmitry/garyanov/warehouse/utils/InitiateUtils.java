@@ -1,5 +1,6 @@
 package dmitry.garyanov.warehouse.utils;
 
+import dmitry.garyanov.warehouse.conf.ApplicationSecurity;
 import dmitry.garyanov.warehouse.model.*;
 import dmitry.garyanov.warehouse.service.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,10 @@ public class InitiateUtils  implements CommandLineRunner {
         contractorService.saveAll(contractors);
         printTable("Contractor", contractorService);
 
+        List<Good> goods = createGoods();
+        goodService.saveAll(goods);
+        printTable("Goods", goodService);
+
         List<GoodsReceipt> goodsReceipts = createGoodReceipts();
         goodReceiptService.saveAll(goodsReceipts);
         printTable("Good receipts", goodReceiptService);
@@ -42,18 +47,16 @@ public class InitiateUtils  implements CommandLineRunner {
         shipmentService.saveAll(shipments);
         printTable("Shipments", shipmentService);
 
-        List<DocumentRow> documentRows = createGoodReceiptsRows(goodsReceipts);
-        List<DocumentRow> shipmentRows = createShipmentRows(shipments, documentRows.size());
-        documentRows.addAll(shipmentRows);
+        List<DocumentRow> goodReceiptRows = createGoodReceiptsRows(goodsReceipts);
+        documentRowService.saveAll(goodReceiptRows);
 
-        documentRowService.saveAll(documentRows);
+        List<DocumentRow> shipmentRows = createShipmentRows(shipments, goodReceiptRows.size());
+        documentRowService.saveAll(shipmentRows);
+
         printTable("Document Rows", documentRowService);
 
         printTable("Contractor", contractorService);
 
-        List<Good> goods = createGoods(shipments);
-        goodService.saveAll(goods);
-        printTable("Goods", goodService);
 
     }
 
@@ -73,7 +76,7 @@ public class InitiateUtils  implements CommandLineRunner {
         for (int i = 0; i < userNames.length && i < roles.size(); i++) {
             User user = userService.get(i + 1).setName(userNames[i]);
             user.setRoles(new ArrayList<>(Arrays.asList(roles.get(i))));
-            user.setPassword("pass"+i);
+            user.setPassword(ApplicationSecurity.passwordEncoder().encode("pass"+i));
             result.add(user);
         }
         return result;
@@ -106,7 +109,7 @@ public class InitiateUtils  implements CommandLineRunner {
             Contractor contractor = contractors.get(i);
             for (int j = 1; j < 3; j++) {
                 String name = "Shipment \u2116 " + (i + 1);
-                result.add(shipmentService.get(i*2 + j).setName(name).setContractor(contractor));
+                result.add(shipmentService.get(i*2 + j).setName(name).setContractor(contractor).setDate(new Date(150000000000l)));
             }
         }
 
@@ -116,8 +119,12 @@ public class InitiateUtils  implements CommandLineRunner {
     private List<DocumentRow> createGoodReceiptsRows(List<GoodsReceipt> goodsReceipts) throws Exception {
         List<DocumentRow> result = new ArrayList<>();
         int i = 1;
+        Good good = goodService.get(1);
         for (GoodsReceipt goodsReceipt: goodsReceipts) {
-            result.add(documentRowService.get(i).setGoodsReceipt(goodsReceipt));
+            result.add(documentRowService.get(i)
+                    .setGoodsReceipt(goodsReceipt)
+                    .setGood(good)
+                    .setDate(goodsReceipt.getDate()));
             i++;
         }
         return result;
@@ -126,14 +133,21 @@ public class InitiateUtils  implements CommandLineRunner {
     private List<DocumentRow> createShipmentRows(List<Shipment> shipments, int shift) throws Exception {
         List<DocumentRow> result = new ArrayList<>();
         int i = 1;
+        Good good = goodService.get(1);
         for (Shipment shipment: shipments) {
-            result.add(documentRowService.get(i + shift).setShipment(shipment));
+            result.add(documentRowService.get(i + shift)
+                    .setShipment(shipment)
+                    .setDate(shipment.getDate())
+                    .setGood(good)
+            );
             i++;
         }
         return result;
     }
-    private List<Good> createGoods(List<Shipment> shipments) {
-        return new ArrayList<>();
+    private List<Good> createGoods() {
+        List<Good> goods = new ArrayList<>();
+        goods.add(goodService.get(1).setName("Bag of sugar").setWeight(50.0));
+        return goods;
     }
 
 

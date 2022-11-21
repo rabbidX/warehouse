@@ -32,14 +32,6 @@ public class UserService  implements IService {
         userRepository.saveAll(users);
     }
 
-    public User get(long id) {
-        try {
-            return userRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return new User();
-        }
-    }
-
     public User getById(long id) {
         return userRepository.findById(id).get();
     }

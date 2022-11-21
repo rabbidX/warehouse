@@ -29,15 +29,6 @@ public class ContractorService implements IService {
         contractorRepository.saveAll(contractors);
     }
 
-    public Contractor get(long id) {
-        try {
-            return  contractorRepository.findById(id).get();
-        } catch(NoSuchElementException e) {
-            Contractor newContractor = new Contractor();
-            return newContractor;
-        }
-    }
-
     public Contractor getById(long id) {
         return  contractorRepository.findById(id).get();
     }

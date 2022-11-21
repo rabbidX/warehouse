@@ -2,6 +2,7 @@ package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.Contractor;
+import dmitry.garyanov.warehouse.model.IEntity;
 import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +26,14 @@ public class RoleService  implements IService {
         return roleRepository.findAll();
     }
 
+    @Override
+    public Role getById(long id) {
+        return roleRepository.findById(id).get();
+    }
+
     public void saveAll(List roles) {
         roleRepository.saveAll(roles);
     }
 
-    public Role get(long id) {
-        try {
-        return  roleRepository.findById(id).get();
-        } catch(NoSuchElementException e) {
-            Role newRole = new Role();
-            return newRole;
-        }
-    }
+
 }

@@ -74,14 +74,6 @@ public class DocumentRowService implements IService {
         }
     }
 
-    public DocumentRow get(long id) {
-        try {
-            return documentRowRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return new DocumentRow();
-        }
-    }
-
     public DocumentRow getById(long id) {
         return documentRowRepository.findById(id).get();
     }

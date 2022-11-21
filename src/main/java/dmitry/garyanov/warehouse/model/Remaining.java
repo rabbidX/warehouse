@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Remaining {
+public class Remaining implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

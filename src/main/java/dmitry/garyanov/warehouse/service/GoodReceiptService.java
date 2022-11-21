@@ -30,14 +30,6 @@ public class GoodReceiptService implements IService {
         goodReceiptRepository.saveAll(goodReceipts);
     }
 
-    public GoodsReceipt get(long id) {
-        try {
-            return goodReceiptRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return new GoodsReceipt();
-        }
-    }
-
     public GoodsReceipt getById(long id) {
         return goodReceiptRepository.findById(id).get();
     }

@@ -1,6 +1,7 @@
 package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
+import dmitry.garyanov.warehouse.model.Contractor;
 import dmitry.garyanov.warehouse.model.Good;
 import dmitry.garyanov.warehouse.model.Role;
 import dmitry.garyanov.warehouse.model.User;
@@ -29,11 +30,7 @@ public class GoodService  implements IService {
         goodRepository.saveAll(goods);
     }
 
-    public Good get(long id) {
-        try {
-            return goodRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return new Good();
-        }
+    public Good getById(long id) {
+        return  goodRepository.findById(id).get();
     }
 }

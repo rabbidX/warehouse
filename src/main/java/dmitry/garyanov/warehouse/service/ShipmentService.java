@@ -28,14 +28,6 @@ public class ShipmentService  implements IService {
         shipmentRepository.saveAll(shipments);
     }
 
-    public Shipment get(long id) {
-        try {
-            return  shipmentRepository.findById(id).get();
-        } catch(NoSuchElementException e) {
-            Shipment newShipment = new Shipment();
-            return newShipment;
-        }
-    }
     public Shipment getById(long id) {
         return shipmentRepository.findById(id).get();
     }

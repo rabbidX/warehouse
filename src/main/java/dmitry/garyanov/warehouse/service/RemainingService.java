@@ -21,14 +21,6 @@ public class RemainingService implements IService {
         return remainingRepository.findAll(Sort.by("id"));
     }
 
-    public Remaining get(long id) {
-        try {
-            return remainingRepository.findById(id).get();
-        } catch (NoSuchElementException e) {
-            return new Remaining();
-        }
-    }
-
     public Remaining getById(long id) {
         return remainingRepository.findById(id).get();
     }

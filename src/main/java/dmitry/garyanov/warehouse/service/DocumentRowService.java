@@ -2,20 +2,26 @@ package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.DocumentRow;
+import dmitry.garyanov.warehouse.model.GoodsReceipt;
 import dmitry.garyanov.warehouse.model.Remaining;
-import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.DocumentRowRepository;
 import dmitry.garyanov.warehouse.repository.RemainingRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Arrays;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
+import javax.print.Doc;
+import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,22 +40,58 @@ public class DocumentRowService implements IService {
     private void updateRemaining(DocumentRow documentRow) {
        List<Remaining> remainingList = remainingRepository.findByRegistrar(documentRow);
        remainingRepository.deleteAll(remainingList);
-       if (documentRow.getShipment() != null) {
-            updateOutgoingRemaining(documentRow);
+       if (documentRow.getDocument() instanceof GoodsReceipt) {
+           updateIncomingRemaining(documentRow);
         } else {
-            updateIncomingRemaining(documentRow);
+           updateOutgoingRemaining(documentRow);
         }
     }
 
+//    @Transactional(value = Transactional.TxType.MANDATORY)
     private void updateOutgoingRemaining(DocumentRow documentRow) {
         List<Remaining> remainingList = remainingRepository.findByRegistrar(documentRow);
         remainingRepository.deleteAll(remainingList);
 
-        Query query = entityManager.createNativeQuery("SELECT receipt_date, quantity, worth FROM remaining where good_id = ?1 and date < ?2");
+        String queryText = new StringBuilder()
+                .append("SELECT receipt_date, SUM(quantity) quantity, SUM(worth) worth ")
+                .append("FROM remaining ")
+                .append("WHERE good_id = ?1 ")
+                .append("AND date < ?2 ")
+                .append("GROUP BY receipt_date ")
+                .append("HAVING SUM(quantity) > 0")
+                .append("ORDER BY receipt_date")
+                .toString();
+//        TypedQuery<Remaining> query = entityManager.createQuery(queryText, Remaining.class);
+        Query query = entityManager.createNativeQuery(queryText, Tuple.class);
         query.setParameter(1, documentRow.getGood().getId());
         query.setParameter(2, documentRow.getDate());
-        List result = query.getResultList();
-        System.out.println(result);
+        List<Tuple> queryResult = query.getResultList();
+        AtomicInteger remainingDistribute = new AtomicInteger(documentRow.getQuantity());
+        if (remainingDistribute.get() == 0) {
+            return;
+        }
+        List<Remaining> result = queryResult.stream()
+                .map(row -> createRemaining(row, documentRow, remainingDistribute))
+                .filter(rem -> rem.getQuantity() != 0)
+                .collect(Collectors.toList());
+        remainingRepository.saveAll(result);
+
+    }
+
+    private Remaining createRemaining(Tuple tuple, DocumentRow documentRow, AtomicInteger remainingDistribute) {
+        int currentQuantity = ((BigInteger)tuple.get("quantity")).intValue();
+        int quantity = Math.min(remainingDistribute.get(), currentQuantity);
+        long worth = Math.round((double)quantity / currentQuantity * ((BigInteger)tuple.get("worth")).longValue());
+
+        Remaining newRemaining = new Remaining();
+        newRemaining.setRegistrar(documentRow)
+                .setGood(documentRow.getGood())
+                .setReceiptDate((Date)tuple.get("receipt_date"))
+                .setDate(documentRow.getDate())
+                .setQuantity(-quantity)
+                .setWorth(-worth);
+        remainingDistribute.getAndAdd(-quantity);
+        return newRemaining;
     }
 
     private void updateIncomingRemaining(DocumentRow documentRow) {

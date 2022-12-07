@@ -23,6 +23,11 @@ public class InitiateUtils  implements CommandLineRunner {
     private RemainingService remainingService;
     @Override
     public void run(String... args) throws Exception {
+        List<DocumentRow> documentRows = documentRowService.getAll();
+        Collections.sort(documentRows, Comparator.comparing(DocumentRow::getDate));
+        documentRowService.saveAll(documentRows);
+    }
+    public void doNotRun(String... args) throws Exception {
 
         List<Role> roles = createRoles();
         roleService.saveAll(roles);
@@ -55,8 +60,6 @@ public class InitiateUtils  implements CommandLineRunner {
         documentRowService.saveAll(shipmentRows);
 
         printTable("Document Rows", documentRowService);
-
-        printTable("Contractor", contractorService);
 
 
     }
@@ -100,7 +103,9 @@ public class InitiateUtils  implements CommandLineRunner {
         for (int i = 0; i < 3; i++) {
             for (int j = 1; j < 3; j++) {
                 String name = "Good receipt \u2116 " + (i + 1);
-                result.add(getEntity(goodReceiptService, GoodsReceipt.class, i*2 + j).setDate(new Date(100000000000l)));
+                GoodsReceipt goodsReceipt = getEntity(goodReceiptService, GoodsReceipt.class, i*2 + j);
+                goodsReceipt.setDate(new Date(100000000000l));
+                result.add(goodsReceipt);
             }
         }
 
@@ -112,7 +117,9 @@ public class InitiateUtils  implements CommandLineRunner {
             Contractor contractor = contractors.get(i);
             for (int j = 1; j < 3; j++) {
                 String name = "Shipment \u2116 " + (i + 1);
-                result.add(getEntity(shipmentService, Shipment.class,i*2 + j).setName(name).setContractor(contractor).setDate(new Date(150000000000l)));
+                Shipment shipment = getEntity(shipmentService, Shipment.class,i*2 + j);
+                shipment.setName(name).setContractor(contractor).setDate(new Date(150000000000l));
+                result.add(shipment);
             }
         }
 
@@ -125,7 +132,7 @@ public class InitiateUtils  implements CommandLineRunner {
         Good good = goodService.getById(1L);
         for (GoodsReceipt goodsReceipt: goodsReceipts) {
             result.add(getEntity(documentRowService, DocumentRow.class, i)
-                    .setGoodsReceipt(goodsReceipt)
+                    .setDocument(goodsReceipt)
                     .setGood(good)
                     .setDate(goodsReceipt.getDate()));
             i++;
@@ -139,7 +146,7 @@ public class InitiateUtils  implements CommandLineRunner {
         Good good = goodService.getById(1L);
         for (Shipment shipment: shipments) {
             result.add(getEntity(documentRowService, DocumentRow.class,i + shift)
-                    .setShipment(shipment)
+                    .setDocument(shipment)
                     .setDate(shipment.getDate())
                     .setGood(good)
             );

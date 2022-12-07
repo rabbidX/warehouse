@@ -4,10 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -17,17 +14,8 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class GoodsReceipt implements IEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Date date;
-    @Override
-    public Long getId() {
-        return this.id;
-    }
+@DiscriminatorValue("GoodsReceipt")
+public class GoodsReceipt extends Document implements IEntity {
 
     @Override
     public boolean equals(Object o) {

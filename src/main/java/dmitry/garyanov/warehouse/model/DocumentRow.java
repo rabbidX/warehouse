@@ -20,41 +20,20 @@ public class DocumentRow  implements IEntity{
     Long id;
 
     @ManyToOne
-    @JoinColumn(name = "shipmentId")
-    Shipment shipment;
+    @JoinColumn(name = "document_id")
+    Document document;
 
-    @ManyToOne
-    @JoinColumn(name = "goodsReceiptId")
-    GoodsReceipt goodsReceipt;
     private Date date;
 
     @ManyToOne
     @JoinColumn(name = "goodId")
     Good good;
 
-    int Quantity;
-    int Worth;
+    int quantity;
+    long worth;
     @Override
     public Long getId() {
         return this.id;
-    }
-
-    public DocumentRow setShipment(Shipment shipment) throws Exception {
-        if (this.goodsReceipt != null) {
-            throw new Exception("document row " + id + " setShipment exception. Good receipt must be null");
-        }
-        this.shipment = shipment;
-        this.date = shipment.getDate();
-        return this;
-    }
-
-    public DocumentRow setGoodsReceipt(GoodsReceipt goodsReceipt) throws Exception{
-        if (this.shipment != null) {
-            throw new Exception("document row " + id + " setGoodsReceipt exception. Shipment must be null");
-        }
-        this.goodsReceipt = goodsReceipt;
-        this.date = goodsReceipt.getDate();
-        return this;
     }
 
     @Override

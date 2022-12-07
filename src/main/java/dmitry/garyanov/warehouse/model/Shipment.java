@@ -14,23 +14,15 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Shipment implements IEntity {
+@DiscriminatorValue("Shipment")
+public class Shipment extends Document implements IEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "contractorId", referencedColumnName = "id")
     @ToString.Exclude
     private Contractor contractor;
 
     private String name;
-    private Date date;
 
     @Override
     public boolean equals(Object o) {

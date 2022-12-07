@@ -42,7 +42,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/api/*").hasAnyRole("admin", "operator", "carrier")
                 .antMatchers(HttpMethod.POST, "/api/*").hasAnyRole("admin", "operator")
                 .antMatchers(HttpMethod.PUT, "/api/*").hasAnyRole("admin", "operator")

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users/")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
    @Autowired
@@ -23,7 +23,7 @@ public class UserController {
     public List<String> getAll() {
         return userService.getAll().stream().map(x -> x.toString()).collect(Collectors.toList());
     }
-    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") Long userId) {
         if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

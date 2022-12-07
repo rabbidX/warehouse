@@ -28,7 +28,7 @@ public class Remaining implements IEntity {
     private Date receiptDate;
     private Date date;
     private int quantity;
-    private int worth;
+    private long worth;
     @ManyToOne
     private DocumentRow registrar;
 

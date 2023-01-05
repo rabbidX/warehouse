@@ -13,12 +13,4 @@ import java.util.List;
 @Repository
 public interface RemainingRepository extends JpaRepository<Remaining, Long> {
     List<Remaining> findByRegistrar(DocumentRow registrar);
-//    @Query(value = "SELECT receipt_date, SUM(quantity) quantity, SUM(worth) worth " +
-//            "FROM remaining " +
-//            "WHERE good_id = ?1 " +
-//            "AND date < ?2 " +
-//            "GROUP BY receipt_date " +
-//            "HAVING SUM(quantity) > 0" +
-//            "ORDER BY receipt_date")
-//    ResultSet collectRemainings(long goodId, Date date);
 }

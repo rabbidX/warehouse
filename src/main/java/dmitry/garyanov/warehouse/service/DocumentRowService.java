@@ -47,7 +47,6 @@ public class DocumentRowService implements IService {
         }
     }
 
-//    @Transactional(value = Transactional.TxType.MANDATORY)
     private void updateOutgoingRemaining(DocumentRow documentRow) {
         List<Remaining> remainingList = remainingRepository.findByRegistrar(documentRow);
         remainingRepository.deleteAll(remainingList);
@@ -61,7 +60,6 @@ public class DocumentRowService implements IService {
                 .append("HAVING SUM(quantity) > 0")
                 .append("ORDER BY receipt_date")
                 .toString();
-//        TypedQuery<Remaining> query = entityManager.createQuery(queryText, Remaining.class);
         Query query = entityManager.createNativeQuery(queryText, Tuple.class);
         query.setParameter(1, documentRow.getGood().getId());
         query.setParameter(2, documentRow.getDate());

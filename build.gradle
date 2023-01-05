@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -28,7 +29,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
-
 }
 
 tasks.named('test') {

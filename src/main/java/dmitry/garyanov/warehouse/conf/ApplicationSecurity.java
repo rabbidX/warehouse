@@ -43,7 +43,6 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/*").hasAnyRole("admin", "operator", "carrier")
                 .antMatchers(HttpMethod.POST, "/api/*").hasAnyRole("admin", "operator")
                 .antMatchers(HttpMethod.PUT, "/api/*").hasAnyRole("admin", "operator")
                 .antMatchers(HttpMethod.DELETE, "/api/*").hasRole("admin")
@@ -52,25 +51,6 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin();
     }
-
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() {
-//
-//        List<dmitry.garyanov.warehouse.model.User> users = userService.getAll();
-//        int arraySize = users.size();
-//        UserDetails[] userDetails = new UserDetails[users.size()];
-//        for (int i = 0; i < arraySize; i++) {
-//            dmitry.garyanov.warehouse.model.User user = users.get(i);
-//            String[] roles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
-//            userDetails[i] = User.builder()
-//                    .username(user.getName())
-//                    .password(passwordEncoder().encode(user.getPassword()))
-//                    .roles(roles)
-//                    .build();
-//        }
-//        return new InMemoryUserDetailsManager(userDetails);
-//    }
 
     @Bean
     public static PasswordEncoder passwordEncoder(){

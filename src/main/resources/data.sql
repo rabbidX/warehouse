@@ -1,225 +1,189 @@
-INSERT INTO public.role (id)
-   SELECT temp.id FROM (
-        SELECT 4 as id
-        UNION ALL
-        SELECT 5
-        UNION ALL
-        SELECT 6
-        UNION ALL
-        SELECT 7) AS temp
-   LEFT JOIN role
-   ON temp.id = role.id
-   WHERE role.id IS NULL;
+INSERT INTO public.role (id, name)
+VALUES (4, 'admin')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
 
-UPDATE public.role
-	SET name='admin'
-	WHERE id=4;
-UPDATE public.role
-	SET name='operator'
-	WHERE id=5;
-UPDATE public.role
-	SET name='carrier'
-	WHERE id=6;
-UPDATE public.role
-	SET name='junior carrier'
-	WHERE id=7;
+INSERT INTO public.role (id, name)
+VALUES (5, 'operator')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
 
-INSERT INTO public.users (id)
-   SELECT temp.id FROM (
-        SELECT 1 as id
-        UNION ALL
-        SELECT 2
-        UNION ALL
-        SELECT 3) AS temp
-   LEFT JOIN users
-   ON temp.id = users.id
-   WHERE users.id IS NULL;
+INSERT INTO public.role (id, name)
+VALUES (6, 'carrier')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
 
-UPDATE public.users
-	SET name='Ivanov', password='$2a$12$3JN9.DQavuwAyFNHFwEXweC967hIi0Da5SjL69xYxKE6xXhjrYhmG'
-	WHERE id=1;
-UPDATE public.users
-	SET name='Petrov', password='$2a$12$1IH2FlSy.FG/mdjaNRDSM.zZ2/YMl9jNvCfKsgxq6grhBnZCt2qfC'
-	WHERE id=2;
-UPDATE public.users
-	SET name='Smirnov', password='$2a$12$CPrqDpLNXlbP5nWY.mA8FO8SP9WDv6031MrTgKlPLjHb0CYstFv9S'
-	WHERE id=3;
+INSERT INTO public.role (id, name)
+VALUES (7, 'junior_carrier')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
+-----------------------------------------
 
-INSERT INTO public.contractor (id)
-   SELECT temp.id FROM (
-        SELECT 1 as id
-        UNION ALL
-        SELECT 2
-        UNION ALL
-        SELECT 3) AS temp
-   LEFT JOIN contractor
-   ON temp.id = contractor.id
-   WHERE contractor.id IS NULL;
+INSERT INTO public.users (id, name, password)
+VALUES (1, 'Ivanov', '$2a$12$3JN9.DQavuwAyFNHFwEXweC967hIi0Da5SjL69xYxKE6xXhjrYhmG')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name, password=EXCLUDED.password;
 
-UPDATE public.contractor
-	SET name='Hooves&Horns Inc.'
-	WHERE id=1;
-UPDATE public.contractor
-	SET name='Horns&Hooves Inc.'
-	WHERE id=2;
-UPDATE public.contractor
-	SET name='No horns only hooves Inc.'
-	WHERE id=3;
+INSERT INTO public.users (id, name, password)
+VALUES (2, 'Petrov', '$2a$12$1IH2FlSy.FG/mdjaNRDSM.zZ2/YMl9jNvCfKsgxq6grhBnZCt2qfC')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name, password=EXCLUDED.password;
 
-INSERT INTO public.good (id)
-   SELECT temp.id FROM (
-        SELECT 1 as id
-        UNION ALL
-        SELECT 2
-        UNION ALL
-        SELECT 3) AS temp
-   LEFT JOIN good
-   ON temp.id = good.id
-   WHERE good.id IS NULL;
+INSERT INTO public.users (id, name, password)
+VALUES (3, 'Smirnov', '$2a$12$CPrqDpLNXlbP5nWY.mA8FO8SP9WDv6031MrTgKlPLjHb0CYstFv9S')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name, password=EXCLUDED.password;
+---------------------------------------
 
-UPDATE public.good
-	SET barcode='32888', name='Axe', price=100, volume=0.2, weight=8.2
-	WHERE id=1;
-UPDATE public.good
-	SET barcode='32892', name='Hammer', price=90, volume=0.3, weight=5.1
-	WHERE id=2;
-UPDATE public.good
-	SET barcode='35167', name='Bag of sugar', weight=50
-	WHERE id=3;
+INSERT INTO public.contractor (id, name)
+VALUES (1, 'Hooves&Horns Inc.')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
 
-INSERT INTO public.document (id, document_type)
-   SELECT temp.id,
-        CASE WHEN temp.id < 7 THEN 'GoodsReceipt'
-            ELSE 'Shipment'
-            END
-        FROM (
-        SELECT 1 as id
-        UNION ALL
-        SELECT 2
-        UNION ALL
-        SELECT 3
-        UNION ALL
-        SELECT 4
-        UNION ALL
-        SELECT 5
-        UNION ALL
-        SELECT 6
-        UNION ALL
-        SELECT 7
-        UNION ALL
-        SELECT 8
-        UNION ALL
-        SELECT 9
-        UNION ALL
-        SELECT 10
-        UNION ALL
-        SELECT 11
-        UNION ALL
-        SELECT 12) AS temp
-   LEFT JOIN document
-   ON temp.id = document.id
-   WHERE document.id IS NULL;
+INSERT INTO public.contractor (id, name)
+VALUES (2, 'Horns&Hooves Inc.')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
 
-UPDATE public.document
-	SET date='1973-03-03 12:46:40', document_type='GoodsReceipt'
-	WHERE id=1;
-UPDATE public.document
-	SET date='1973-03-03 12:46:41', document_type='GoodsReceipt'
-	WHERE id=2;
-UPDATE public.document
-	SET date='1973-03-03 12:46:42', document_type='GoodsReceipt'
-	WHERE id=3;
-UPDATE public.document
-	SET date='1973-03-03 12:46:43', document_type='GoodsReceipt'
-	WHERE id=4;
-UPDATE public.document
-	SET date='1973-03-03 12:46:44', document_type='GoodsReceipt'
-	WHERE id=5;
-UPDATE public.document
-	SET date='1973-03-03 12:46:45', document_type='GoodsReceipt'
-	WHERE id=6;
+INSERT INTO public.contractor (id, name)
+VALUES (3, 'No horns only hooves Inc.')
+ON CONFLICT (id) DO UPDATE SET
+name=EXCLUDED.name;
+-------------------------------------
 
-UPDATE public.document
-	SET date='1983-03-03 12:46:40', name='Shipment #1', contractor_id=1, document_type='Shipment'
-	WHERE id=7;
-UPDATE public.document
-	SET date='1983-03-03 12:46:41', name='Shipment #2', contractor_id=1, document_type='Shipment'
-	WHERE id=8;
-UPDATE public.document
-	SET date='1983-03-03 12:46:42', name='Shipment #3', contractor_id=2, document_type='Shipment'
-	WHERE id=9;
-UPDATE public.document
-	SET date='1983-03-03 12:46:43', name='Shipment #4', contractor_id=2, document_type='Shipment'
-	WHERE id=10;
-UPDATE public.document
-	SET date='1983-03-03 12:46:44', name='Shipment #5', contractor_id=3, document_type='Shipment'
-	WHERE id=11;
-UPDATE public.document
-	SET date='1983-03-03 12:46:45', name='Shipment #6', contractor_id=3, document_type='Shipment'
-	WHERE id=12;
+INSERT INTO public.good (id, barcode, name, price, volume, weight)
+VALUES (1, '32888', 'Axe', 100, 0.2, 8.2)
+ON CONFLICT (id) DO UPDATE SET
+barcode=EXCLUDED.barcode, name=EXCLUDED.name, price=EXCLUDED.price, volume=EXCLUDED.volume, weight=EXCLUDED.weight;
 
-INSERT INTO public.document_row (id)
-   SELECT temp.id FROM (
-        SELECT 1 as id
-        UNION ALL
-        SELECT 2
-        UNION ALL
-        SELECT 3
-        UNION ALL
-        SELECT 4
-        UNION ALL
-        SELECT 5
-        UNION ALL
-        SELECT 6
-        UNION ALL
-        SELECT 7
-        UNION ALL
-        SELECT 8
-        UNION ALL
-        SELECT 9
-        UNION ALL
-        SELECT 10
-        UNION ALL
-        SELECT 11
-        UNION ALL
-        SELECT 12) AS temp
-   LEFT JOIN document_row
-   ON temp.id = document_row.id
-   WHERE document_row.id IS NULL;
+INSERT INTO public.good (id, barcode, name, price, volume, weight)
+VALUES (2, '32892', 'Hammer', 90, 0.1, 7.8)
+ON CONFLICT (id) DO UPDATE SET
+barcode=EXCLUDED.barcode, name=EXCLUDED.name, price=EXCLUDED.price, volume=EXCLUDED.volume, weight=EXCLUDED.weight;
 
-UPDATE public.document_row
-	SET quantity=1, good_id=1, document_id=1, date='1973-03-03 12:46:40'
-	WHERE id=1;
-UPDATE public.document_row
-	SET quantity=2, good_id=1, document_id=2, date='1973-03-03 12:46:41'
-	WHERE id=2;
-UPDATE public.document_row
-	SET quantity=3, good_id=1, document_id=3, date='1973-03-03 12:46:42'
-	WHERE id=3;
-UPDATE public.document_row
-	SET quantity=4, good_id=1, document_id=4, date='1973-03-03 12:46:43'
-	WHERE id=4;
-UPDATE public.document_row
-	SET quantity=5, good_id=1, document_id=5, date='1973-03-03 12:46:44'
-	WHERE id=5;
-UPDATE public.document_row
-	SET quantity=6, good_id=1, document_id=6, date='1973-03-03 12:46:45'
-	WHERE id=6;
-UPDATE public.document_row
-	SET quantity=6, good_id=1, document_id=7, date='1983-03-03 12:46:40'
-	WHERE id=7;
-UPDATE public.document_row
-	SET quantity=5, good_id=1, document_id=8, date='1983-03-03 12:46:41'
-	WHERE id=8;
-UPDATE public.document_row
-	SET quantity=4, good_id=1, document_id=9, date='1983-03-03 12:46:42'
-	WHERE id=9;
-UPDATE public.document_row
-	SET quantity=3, good_id=1, document_id=10, date='1983-03-03 12:46:43'
-	WHERE id=10;
-UPDATE public.document_row
-	SET quantity=2, good_id=1, document_id=11, date='1983-03-03 12:46:44'
-	WHERE id=11;
-UPDATE public.document_row
-	SET quantity=1, good_id=1, document_id=12, date='1983-03-03 12:46:45'
-	WHERE id=12;
+INSERT INTO public.good (id, barcode, name, weight)
+VALUES (3, '35167', 'Bag of sugar', 100)
+ON CONFLICT (id) DO UPDATE SET
+barcode=EXCLUDED.barcode, name=EXCLUDED.name, weight=EXCLUDED.weight;
+-------------------------------------------
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (1, '1973-03-03 12:46:40', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (2, '1973-03-03 12:46:41', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (3, '1973-03-03 12:46:42', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (4, '1973-03-03 12:46:43', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (5, '1973-03-03 12:46:43', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, document_type)
+VALUES (6, '1973-03-03 12:46:45', 'GoodsReceipt')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (7, '1983-03-03 12:46:40', 'Shipment #1', 1, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (8, '1983-03-03 12:46:41', 'Shipment #2', 1, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (9, '1983-03-03 12:46:42', 'Shipment #3', 2, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (10, '1983-03-03 12:46:43', 'Shipment #4', 2, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (11, '1983-03-03 12:46:44', 'Shipment #5', 3, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+
+INSERT INTO public.document (id, date, name, contractor_id, document_type)
+VALUES (12, '1983-03-03 12:46:45', 'Shipment #6', 3, 'Shipment')
+ON CONFLICT (id) DO UPDATE SET
+date=EXCLUDED.date, name=EXCLUDED.name, contractor_id=EXCLUDED.contractor_id, document_type=EXCLUDED.document_type;
+------------------------------------------
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (1, 1, 1, 1, '1973-03-03 12:46:40', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (2, 2, 1, 2, '1973-03-03 12:46:41', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (3, 3, 1, 3, '1973-03-03 12:46:42', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (4, 4, 1, 4, '1973-03-03 12:46:43', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (5, 5, 1, 5, '1973-03-03 12:46:44', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (6, 6, 1, 6, '1973-03-03 12:46:45', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (7, 6, 1, 7, '1983-03-03 12:46:40', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (8, 5, 1, 8, '1983-03-03 12:46:41', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (9, 4, 1, 9, '1983-03-03 12:46:42', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (10, 3, 1, 10, '1983-03-03 12:46:43', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (11, 2, 1, 11, '1983-03-03 12:46:44', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;
+
+INSERT INTO public.document_row (id, quantity, good_id, document_id, date, worth)
+VALUES (12, 1, 1, 12, '11983-03-03 12:46:46', 0)
+ON CONFLICT (id) DO UPDATE SET
+quantity=EXCLUDED.quantity, good_id=EXCLUDED.good_id, document_id=EXCLUDED.document_id, date=EXCLUDED.date, worth=EXCLUDED.worth;

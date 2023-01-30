@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class GoodReceiptService implements IService {
+public class GoodReceiptService {
     @NotNull
     private GoodReceiptRepository goodReceiptRepository;
 
@@ -21,7 +21,6 @@ public class GoodReceiptService implements IService {
         goodReceiptRepository.save(goodsReceipt);
     }
 
-    @Override
     public List<GoodsReceipt> getAll() {
         return goodReceiptRepository.findAll(Sort.by("id"));
     }

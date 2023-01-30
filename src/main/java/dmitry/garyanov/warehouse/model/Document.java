@@ -13,15 +13,10 @@ import java.util.Date;
 @Accessors(chain = true)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "document_type", discriminatorType = DiscriminatorType.STRING)
-public class Document implements IEntity{
+public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     private Date date;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 
 }

@@ -12,11 +12,10 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class RemainingService implements IService {
+public class RemainingService {
     @NotNull
     private RemainingRepository remainingRepository;
 
-    @Override
     public List<Remaining> getAll() {
         return remainingRepository.findAll(Sort.by("id"));
     }

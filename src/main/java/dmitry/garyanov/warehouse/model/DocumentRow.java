@@ -14,7 +14,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class DocumentRow  implements IEntity{
+public class DocumentRow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -31,10 +31,6 @@ public class DocumentRow  implements IEntity{
 
     int quantity;
     long worth;
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 
     @Override
     public boolean equals(Object o) {

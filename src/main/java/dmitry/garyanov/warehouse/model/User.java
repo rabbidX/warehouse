@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @Setter
 @RequiredArgsConstructor
 @Table(name = "users")
-public class User implements IEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,10 +31,6 @@ public class User implements IEntity {
 
     private String name;
     private String password;
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 
     @Override
     public boolean equals(Object o) {

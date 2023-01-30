@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Role implements IEntity{
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,11 +25,6 @@ public class Role implements IEntity{
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     @ToString.Exclude
     List<User> users;
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class ShipmentService  implements IService {
+public class ShipmentService {
     @NotNull
     private ShipmentRepository shipmentRepository;
 
@@ -19,7 +19,6 @@ public class ShipmentService  implements IService {
         shipmentRepository.save(shipment);
     }
 
-    @Override
     public List<Shipment> getAll() {
         return shipmentRepository.findAll();
     }

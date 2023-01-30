@@ -15,7 +15,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @DiscriminatorValue("GoodsReceipt")
-public class GoodsReceipt extends Document implements IEntity {
+public class GoodsReceipt extends Document {
 
     @Override
     public boolean equals(Object o) {

@@ -15,7 +15,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @DiscriminatorValue("Shipment")
-public class Shipment extends Document implements IEntity {
+public class Shipment extends Document {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "contractorId", referencedColumnName = "id")

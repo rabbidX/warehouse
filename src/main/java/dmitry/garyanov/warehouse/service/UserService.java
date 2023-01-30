@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class UserService  implements IService {
+public class UserService {
     @NotNull
     private UserRepository userRepository;
 
@@ -23,7 +23,6 @@ public class UserService  implements IService {
         userRepository.save(user);
     }
 
-    @Override
     public List<User> getAll() {
         return userRepository.findAll(Sort.by("id"));
     }

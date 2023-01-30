@@ -14,14 +14,13 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class GoodService  implements IService {
+public class GoodService {
     @NotNull
     private GoodRepository goodRepository;
 
     public void save (Good good) {
         goodRepository.save(good);
     }
-    @Override
     public List<Good> getAll() {
         return goodRepository.findAll();
     }

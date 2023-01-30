@@ -13,7 +13,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Good implements IEntity{
+public class Good {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +23,6 @@ public class Good implements IEntity{
     private Long price;
     private Double weight;
     private Double volume;
-
-    @Override
-    public Long getId() {
-         return this.id;
-    }
 
     @Override
     public boolean equals(Object o) {

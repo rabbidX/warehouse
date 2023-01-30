@@ -2,17 +2,14 @@ package dmitry.garyanov.warehouse.service;
 
 import com.sun.istack.NotNull;
 import dmitry.garyanov.warehouse.model.Contractor;
-import dmitry.garyanov.warehouse.model.Role;
-import dmitry.garyanov.warehouse.model.User;
 import dmitry.garyanov.warehouse.repository.ContractorRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
-public class ContractorService implements IService {
+public class ContractorService {
     @NotNull
     private ContractorRepository contractorRepository;
 
@@ -20,7 +17,6 @@ public class ContractorService implements IService {
         contractorRepository.save(contractor);
     }
 
-    @Override
     public List<Contractor> getAll() {
         return contractorRepository.findAll();
     }

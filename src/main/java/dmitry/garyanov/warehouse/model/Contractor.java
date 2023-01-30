@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @ToString(exclude = "shipments")
-public class Contractor implements IEntity{
+public class Contractor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,8 +21,4 @@ public class Contractor implements IEntity{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "contractor")
     private List<Shipment> shipments;
 
-    @Override
-    public Long getId() {
-        return this.id;
-    }
 }

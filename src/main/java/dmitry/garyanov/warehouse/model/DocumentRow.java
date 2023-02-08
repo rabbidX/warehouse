@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +23,7 @@ public class DocumentRow {
     @JoinColumn(name = "document_id")
     Document document;
 
-    private Date date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "goodId")

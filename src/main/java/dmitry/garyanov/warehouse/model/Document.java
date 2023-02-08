@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,6 +17,6 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    private Date date;
+    private LocalDateTime date;
 
 }

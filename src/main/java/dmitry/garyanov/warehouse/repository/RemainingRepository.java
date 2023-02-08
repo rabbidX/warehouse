@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -20,13 +18,6 @@ public interface RemainingRepository extends JpaRepository<Remaining, Long> {
     @Query(nativeQuery = true, value = "SELECT receipt_date, SUM(quantity) quantity, SUM(worth) worth " +
             "FROM remaining " + "WHERE good_id = ?1 " + "AND date < ?2 " + "GROUP BY receipt_date " + "HAVING SUM(quantity) > 0 "
             + "ORDER BY receipt_date")
-    Set<GoodGroopedRemaining> getRemainingByGoodid_Date(Long goodId, Date date);
-
-//    @Query(nativeQuery = true, value = "SELECT good_id," +
-//            " receipt_date," +
-//            " SUM(quantity) AS quantity," +
-//            " SUM(worth) AS worth, " +
-//            "date, id  FROM remaining GROUP BY  date, id, receipt_date, good_id")
-//    Collection<Remaining> getRemainingByGoodid_Date();
+    Set<GoodGroopedRemaining> getRemainingByGoodid_Date(Long goodId, LocalDateTime date);
 
 }

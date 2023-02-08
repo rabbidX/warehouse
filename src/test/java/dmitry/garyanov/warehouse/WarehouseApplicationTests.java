@@ -1,5 +1,6 @@
 package dmitry.garyanov.warehouse;
 
+import dmitry.garyanov.warehouse.model.DocumentRow;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,14 @@ WarehouseApplicationTests {
 	@Test
 	void contextLoads() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/users")).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	void saveRows() {
+
+		DocumentRow documentRow = new DocumentRow();
+		documentRow.setDate()
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/rows/").content()).
 	}
 
 }

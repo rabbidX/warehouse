@@ -8,7 +8,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Accessors(chain = true)
@@ -25,8 +25,8 @@ public class Remaining {
     @JoinColumn(name = "good_id")
     private Good good;
 
-    private Date receiptDate;
-    private Date date;
+    private LocalDateTime receiptDate;
+    private LocalDateTime date;
     private int quantity;
     private long worth;
     @ManyToOne

@@ -1,10 +1,10 @@
 package dmitry.garyanov.warehouse.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface GoodGroopedRemaining {
     int getQuantity();
     long getWorth();
-    Date getReceiptDate();
+    LocalDateTime getReceiptDate();
 
 }

@@ -5,7 +5,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Objects;
 
 @Accessors(chain = true)

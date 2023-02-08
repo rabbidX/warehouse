@@ -11,13 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.Tuple;
-import javax.persistence.TypedQuery;
-import javax.print.Doc;
-import javax.transaction.Transactional;
-import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -57,9 +51,8 @@ public class DocumentRowService {
         }
 
         Long goodId = documentRow.getGood().getId();
-        Date date = documentRow.getDate();
+        LocalDateTime date = documentRow.getDate();
         Set<GoodGroopedRemaining> currentRemaining = remainingRepository.getRemainingByGoodid_Date(goodId, date);
-       // Collection<Remaining> currentRemaining = remainingRepository.getRemainingByGoodid_Date();
         List<Remaining> result = currentRemaining.stream().map(row -> createRemaining(row, documentRow, remainingDistribute))
                 .filter(rem -> rem.getQuantity() != 0)
                 .collect(Collectors.toList());
